@@ -8,7 +8,7 @@ class Node:
         self.y = y
         self.visited = visited
         self.type = nodetype
-        self.quantity = quantity
+        self.quantity = int(quantity)
 
 
 class Arc:
@@ -23,7 +23,7 @@ class Route:
     def __init__(self, index, capacity):
         self.index = index
         self.totalCost = 0
-        self.capacity = capacity
+        self.capacity = int(capacity)
         self.load = 0
         self.route = []
         self.indexTale = 0
@@ -31,8 +31,10 @@ class Route:
 
     def firstAdd(self, arc):
         if arc is None:
+            print("None")
             return False
         if arc.nodes[0].quantity + arc.nodes[1].quantity > self.capacity:
+            print(str(a)+" > "+str(self.capacity))
             return False
 
         self.route.append(arc.nodes[0])

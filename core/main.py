@@ -13,8 +13,6 @@ routes=[]
 
 solved(arcsL, routes, nVehicles, vehiclesCapacity)
 
-print(len(routes))
-
 for i in range(len(routes)):
     for j in range(len(routes[i].route)):
         print("d")
