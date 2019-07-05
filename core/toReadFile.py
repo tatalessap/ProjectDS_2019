@@ -40,13 +40,13 @@ def ReadIstance(namefile):
         for j in range(i+1, len(nodesL), 1):
             arcsL.append(Arc(nodesL[i], nodesL[j], deposit))
 
-    arcsL.sort(key=getSaving(), reverse=True)
+    arcsL.sort(key=lambda Arc: Arc.saving, reverse=True)
 
     for i in range(len(nodesB)):
         for j in range(i+1, len(nodesB), 1):
             arcsL.append(Arc(nodesB[i], nodesB[j], deposit))
 
-    arcsL.sort(key=getSaving(), reverse=True)
+    arcsL.sort(key=lambda Arc: Arc.saving, reverse=True)
 
     return nodesL, nodesB, arcsL, arcsB, nCustomers, deposit, vehiclesCapacity, nVehicles
 
