@@ -15,7 +15,7 @@ class Arc:
         self.j=j
         self.cost=math.sqrt((i.x-j.x)**2+(i.y-j.y)**2)
 
-    def cost(self):
+    def getCost(self):
         print(self.cost)
 
 
