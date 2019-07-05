@@ -2,7 +2,7 @@ import re
 import math
 from classes import *
 
-def ReadIstance(namefile):
+def readIstance(namefile):
     nodesL = [];
     nodesB = [];
     arcsL = [];
