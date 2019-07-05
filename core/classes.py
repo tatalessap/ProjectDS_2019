@@ -30,6 +30,8 @@ class Route:
         self.indexHead = 0
 
     def firstAdd(self, arc):
+        if arc is None:
+            return False
         if arc.nodes[0].quantity + arc.nodes[1].quantity > self.capacity:
             return False
 
@@ -46,14 +48,16 @@ class Route:
 
         return True
 
-    def add(self, arc, n, position):
+    def add(self, arc, n, typeHT):
+        if arc is None:
+            return False
         if self.load + arc.nodes[n].quantity > self.capacity:
             return False
 
-        if position == "h":
+        if typeHT == "h":
             self.route.append(arc.nodes[n])
             self.indexHead = arc.nodes[n].index
-        if position == "t":
+        if typeHT == "t":
             self.route.insert(0, arc.nodes[n])
             self.indexTale = arc.nodes[n].index
 
