@@ -9,8 +9,17 @@ arc = Arc(node1, node2, deposit)
 
 nodesL, nodesB, arcsL, arcsB, nCustomers, deposit, vehiclesCapacity, nVehicles = readIstance("istances/A1.txt")
 
-routes=[nVehicles]
+routes=[]
 
-solved(arcsL, routes)
+solved(arcsL, routes, nVehicles, vehiclesCapacity)
+
+print(len(routes))
+
+for i in range(len(routes)):
+    for j in range(len(routes[i].route)):
+        print("d")
+        print(str(routes[i].route[j].index)+"    ")
+
+
 
 
