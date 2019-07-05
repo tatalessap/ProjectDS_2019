@@ -2,15 +2,15 @@ import math
 
 
 class Node:
-    def __init__(self,id,x,y,visited):
-        self.id = id
+    def __init__(self, index, x, y, visited):
+        self.index = index
         self.x = x
         self.y = y
         self.visited = visited
 
 
 class Arc:
-    def __init__(self,node1,node2,deposit):
+    def __init__(self, node1, node2, deposit):
         self.node1 = node1
         self.node2 = node2
         self.cost = math.sqrt((node1.x-node2.x)**2 + (node1.y-node2.y)**2)
