@@ -1,6 +1,6 @@
 import re
 import math
-from classes import *
+from core.classes import *
 
 def readIstance(namefile):
     nodesL = [];

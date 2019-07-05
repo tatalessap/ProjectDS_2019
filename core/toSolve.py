@@ -1,6 +1,3 @@
-from classes import *
-
-
 def solved(arcs, routes):
     flagSolved=True
     i=0
