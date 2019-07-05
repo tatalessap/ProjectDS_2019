@@ -30,10 +30,10 @@ def ReadIstance(namefile):
         mysplit = clearSplit(mystring)
 
         if int(mysplit[2]) != 0:
-            nodesL.append(Node(i+1, mysplit[0], mysplit[1], False, "L", mysplit[2])) #index, X, Y, visited, type and quantity
+            nodesL.append(Node(i+1, float(mysplit[0]), float(mysplit[1]), False, "L", mysplit[2])) #index, X, Y, visited, type and quantity
 
         else:
-            nodesB.append(Node(i+1, mysplit[0], mysplit[1], False, "B", mysplit[3]))  # index, X, Y, visited, type and quantity
+            nodesB.append(Node(i+1, float(mysplit[0]), float(mysplit[1]), False, "B", mysplit[3]))  # index, X, Y, visited, type and quantity
 
 
     for i in range(len(nodesL)):
