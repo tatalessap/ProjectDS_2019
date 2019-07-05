@@ -8,7 +8,6 @@ def ReadIstance(namefile):
     arcsL = [];
     arcsB = [];
 
-
     in_file = open(namefile, "r")
 
     nCustomers = int(in_file.readline())  #number of costumers
@@ -21,7 +20,7 @@ def ReadIstance(namefile):
 
     mysplit = clearSplit(mystring)
 
-    deposit = Node(0, float(mysplit[0]), float(mysplit[1]),)
+    deposit = Node(0, float(mysplit[0]), float(mysplit[1]), 'false', "D", 0)
 
     vehiclesCapacity = mysplit[3]
 
@@ -31,11 +30,18 @@ def ReadIstance(namefile):
         mysplit = clearSplit(mystring)
 
         if int(mysplit[2]) != 0:
+            nodesL.append(Node(i+1, mysplit[0]), mysplit[1], 'false', "L", mysplit[2]) #index, X, Y, visited, type and quantity
 
         else:
+            nodesB.append(Node(i+1, mysplit[0]), mysplit[1], 'false', "B", mysplit[3])  # index, X, Y, visited, type and quantity
+
+    for i in range(len(nodesL)):
+        for j in range(i+1, len(nodesL), 1):
+                pass
 
 
-    return nCustomers, nVehicles, capacity
+
+    return nodesL, nodesB, arcsL, arcsB, nCustomers, deposit, vehiclesCapacity, nVehicles
 
 
 def clearSplit(l):
