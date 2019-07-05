@@ -20,7 +20,7 @@ def ReadIstance(namefile):
 
     mysplit = clearSplit(mystring)
 
-    deposit = Node(0, float(mysplit[0]), float(mysplit[1]), 'false', "D", 0)
+    deposit = Node(0, float(mysplit[0]), float(mysplit[1]), False, "D", 0)
 
     vehiclesCapacity = mysplit[3]
 
@@ -30,16 +30,23 @@ def ReadIstance(namefile):
         mysplit = clearSplit(mystring)
 
         if int(mysplit[2]) != 0:
-            nodesL.append(Node(i+1, mysplit[0]), mysplit[1], 'false', "L", mysplit[2]) #index, X, Y, visited, type and quantity
+            nodesL.append(Node(i+1, mysplit[0]), mysplit[1], False, "L", mysplit[2]) #index, X, Y, visited, type and quantity
 
         else:
-            nodesB.append(Node(i+1, mysplit[0]), mysplit[1], 'false', "B", mysplit[3])  # index, X, Y, visited, type and quantity
+            nodesB.append(Node(i+1, mysplit[0]), mysplit[1], False, "B", mysplit[3])  # index, X, Y, visited, type and quantity
+
 
     for i in range(len(nodesL)):
         for j in range(i+1, len(nodesL), 1):
-                pass
+            arcsL.append(Arc(nodesL[i]), nodesL[j], deposit)
 
+    arcsL.sort(key=getSaving(), reverse=True)
 
+    for i in range(len(nodesB)):
+        for j in range(i+1, len(nodesB), 1):
+            arcsL.append(Arc(nodesB[i]), nodesB[j], deposit)
+
+    arcsL.sort(key=getSaving(), reverse=True)
 
     return nodesL, nodesB, arcsL, arcsB, nCustomers, deposit, vehiclesCapacity, nVehicles
 
