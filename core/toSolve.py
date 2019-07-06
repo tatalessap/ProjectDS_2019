@@ -6,10 +6,10 @@ def solved(arcs, routes, nVehicles, vehiclesCapacity):
     #phase 1
     for i in range(nVehicles):
         flagSolved = False
-        routes.append(Route(i,vehiclesCapacity))
         while(not(flagSolved)):
             found, arc=searchArcNotVisited(arcs)
             if(found):
+                routes.append(Route(i, vehiclesCapacity))
                 flagSolved = routes[i].firstAdd(arc)
             else:
                 flagSolved=True
@@ -57,3 +57,15 @@ def searchArcOneNotVisited(start, arcs, indexHead, indexTale):
                 return arcs[i], 0, "t", i+1
 
     return None, -1, 'None', len(arcs)
+
+def mergeRoutes(routesL, routesB, deposit):
+    arcs=[]
+    for i in range(len(routesL)):
+        for j in range(len(routesB)):
+            arcs.append(Arc(routesL[i].route[0], routesB[j].route[0], deposit))
+            arcs.append(Arc(routesL[i].route[0], routesB[j].route[len(routesB[j].route)-1], deposit))
+            arcs.append(Arc(routesL[i].route[len(routesL[i].route)-1], routesB[j].route[0], deposit))
+            arcs.append(Arc(routesL[i].route[len(routesL[i].route)-1], routesB[j].route[len(routesB[j].route)-1], deposit))
+
+    arcs.sort(key=lambda Arc: Arc.saving, reverse=True)
+    print("done")
