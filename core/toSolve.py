@@ -1,16 +1,24 @@
 from core.classes import *
 
 def solved(arcs, routes, nVehicles, vehiclesCapacity):
+
+
     #phase 1
     for i in range(nVehicles):
         flagSolved = False
         routes.append(Route(i,vehiclesCapacity))
         while(not(flagSolved)):
-            arc=searchArcNotVisited(arcs)
-            flagSolved=routes[i].firstAdd(arc)
+            found, arc=searchArcNotVisited(arcs)
+            if(found):
+                flagSolved = routes[i].firstAdd(arc)
+            else:
+                flagSolved=True
+                i=nVehicles
+
+
 
     #phase 2
-    for i in range(nVehicles):
+    for i in range(len(routes)):
         j = 0
         flagSolved = False
         while(not(flagSolved)):
@@ -19,8 +27,6 @@ def solved(arcs, routes, nVehicles, vehiclesCapacity):
                 flagSolved = routes[i].add(arc, indexPosition, typeHT)
             else:
                 flagSolved = True
-
-
     return routes
 
 
@@ -28,8 +34,8 @@ def solved(arcs, routes, nVehicles, vehiclesCapacity):
 def searchArcNotVisited(arcs):
     for i in range(len(arcs)):
         if((not(arcs[i].nodes[0].visited))and(not(arcs[i].nodes[1].visited))):
-            return arcs[i]
-    return None
+            return True, arcs[i]
+    return False, None
 
 
 def searchArcOneNotVisited(start, arcs, indexHead, indexTale):

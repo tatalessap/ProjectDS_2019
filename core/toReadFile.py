@@ -44,7 +44,7 @@ def readIstance(namefile):
 
     for i in range(len(nodesB)):
         for j in range(i+1, len(nodesB), 1):
-            arcsL.append(Arc(nodesB[i], nodesB[j], deposit))
+            arcsB.append(Arc(nodesB[i], nodesB[j], deposit))
 
     arcsL.sort(key=lambda Arc: Arc.saving, reverse=True)
 
