@@ -8,7 +8,7 @@ class Node:
         self.y = y
         self.visited = visited
         self.type = nodetype
-        self.quantity = int(quantity)
+        self.quantity = quantity
 
 
 class Arc:
@@ -23,7 +23,7 @@ class Route:
     def __init__(self, index, capacity):
         self.index = index
         self.totalCost = 0
-        self.capacity = int(capacity)
+        self.capacity = capacity
         self.load = 0
         self.route = []
         self.indexTale = 0

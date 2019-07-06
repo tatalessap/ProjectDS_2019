@@ -22,7 +22,7 @@ def readIstance(namefile):
 
     deposit = Node(0, float(mysplit[0]), float(mysplit[1]), False, "D", 0)
 
-    vehiclesCapacity = mysplit[3]
+    vehiclesCapacity = int(mysplit[3])
 
     "per i clienti"
     for i in range(nCustomers):
@@ -30,10 +30,10 @@ def readIstance(namefile):
         mysplit = clearSplit(mystring)
 
         if int(mysplit[2]) != 0:
-            nodesL.append(Node(i+1, float(mysplit[0]), float(mysplit[1]), False, "L", mysplit[2])) #index, X, Y, visited, type and quantity
+            nodesL.append(Node(i+1, float(mysplit[0]), float(mysplit[1]), False, "L", int(mysplit[2]))) #index, X, Y, visited, type and quantity
 
         else:
-            nodesB.append(Node(i+1, float(mysplit[0]), float(mysplit[1]), False, "B", mysplit[3]))  # index, X, Y, visited, type and quantity
+            nodesB.append(Node(i+1, float(mysplit[0]), float(mysplit[1]), False, "B", int(mysplit[3])))  # index, X, Y, visited, type and quantity
 
 
     for i in range(len(nodesL)):
