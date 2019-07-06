@@ -9,18 +9,26 @@ routesB=[]
 solved(arcsL, routesL, nVehicles, vehiclesCapacity)
 solved(arcsB, routesB, nVehicles, vehiclesCapacity)
 
-print("len(nodesL) = " + str(len(nodesL)))
-
-print("len(route) = " + str(len(routesB)))
+routes = mergeRoutes(routesL, routesB, deposit)
 
 for i in range(len(nodesL)):
     if not(nodesL[i].visited):
-        print(str(i)+" is not visited")
+        print(str(i)+" (L) is not visited")
 
 for i in range(len(nodesB)):
     if not(nodesB[i].visited):
-        print(str(i)+" is not visited")
+        print(str(i)+" (B) is not visited")
 
+for i in range(len(routes)):
+    print("Route: "+str(i)+"\n")
+    for j in range(len(routes[i].route)):
+        print(str(routes[i].route[j].index)+str(routes[i].route[j].type)+" ")
+    print("\n\n")
 
+totalcost=0
+for i in range(len(routes)):
+    totalcost=totalcost+routes[i].totalCost
+
+print(str(totalcost))
 
 
