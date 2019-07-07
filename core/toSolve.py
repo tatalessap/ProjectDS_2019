@@ -172,3 +172,92 @@ def addDeposit(route, deposit):
     route.destinations.insert(0, deposit)
     route.indexHead = 0
     route.indexTale = 0
+
+
+def getNodesNotVisited (nodes):
+    nodesNotVisited = []
+    for i in range(len(nodes)):
+        if not nodes[i].visited:
+            nodesNotVisited.append(nodes[i])
+
+    if len(nodesNotVisited) == 0:
+        return False, None
+    else:
+        return True, nodesNotVisited
+
+
+def calculateSaving(distance1, distance2, cost):
+
+    return distance1 - distance2 - cost
+
+
+def updateRoutesByInsertNodeNotVisited(indexToRemoveInDestination, indexRoute, nodesNotVisited, routes, newLoad):
+    routes[indexRoute].load = newLoad
+
+    nodesNotVisited.append(routes[indexRoute].destinations[indexToRemoveInDestination])
+
+    nodesNotVisited[len(nodesNotVisited) - 1].visited = True
+
+    routes[indexRoute].destinations.remove(indexToRemoveInDestination)
+
+
+def appendNodesNotVisitedInRoutes (routes, nodes, deposit, capacity):
+
+    notVisited, nodesNotVisited = getNodesNotVisited(nodes)
+    saving = []
+
+    while notVisited:
+        nodesNotVisited.sort(key=lambda item: item.demand, reverse=True)
+
+        for j in range(len(nodesNotVisited)):
+
+            for i in range(len(routes)):
+                indexSx: int = 1 #next Tale
+                indexDx: int = len(routes[i].destination)-2 #prev Head
+
+
+                # saving : 0 saving, 1 index of routes, 2  index of nodeNotVisited, 3 indexOfNodeInteressing
+                saving.append(calculateSaving(Node.distance(routes[i].destinations[indexSx], deposit), #next of tale
+                                              Node.distance(nodesNotVisited[j], deposit)), i, j, "tale")
+
+                saving.append(calculateSaving(Node.distance(routes[i].destinations[indexDx], deposit),
+                                              Node.distance(nodesNotVisited[j], deposit)), i, j, "head") #previous of head
+                #now, sort the saving
+
+        saving.sort(key = lambda item: item[0], reverse=True)
+
+        indexRoute = saving[0][1]
+
+        if saving[0][3] == "tale":
+            #tale
+            indexTaleInDestinations = 0
+
+            newLoadT = routes[indexRoute].load - Node.distance(routes[indexRoute].destinations[indexTaleInDestinations], routes[indexRoute].destinations[indexSx])
+
+            if not newLoad+nodesNotVisited[j].demand > newLoad:
+                updateRoutesByInsertNodeNotVisited(indexTaleInDestinations, indexRoute, nodesNotVisited, routes, newLoad)
+                routes[indexRoute].add(Arc(nodesNotVisited[j],routes[indexRoute].destinations[indexSx], deposit), 0, "t")
+            else:
+
+
+
+
+
+        else:
+            #head
+            indexHeadInDestinations = len(routes[indexRoute].destination)-1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
