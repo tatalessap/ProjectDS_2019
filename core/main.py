@@ -26,7 +26,7 @@ for filename in os.listdir(directory):
 
         for i in range(len(nodesL)):
             if not nodesL[i].visited:
-                print(str(i) + " (L) is not visited")
+                print(str(i) + " (L) is not visited with capacity "+str(nodesL[i].demand)+". Vehicle capacity is "+str(vehiclesCapacity))
 
         for i in range(len(nodesB)):
             if not nodesB[i].visited:
@@ -41,7 +41,7 @@ for filename in os.listdir(directory):
 
         print("\t Optimal solution:     " + solution)
 
-        print("\t Absolute error:       " + str(abs(totalAllCost - float(solution))))
+        print("\t Absolute error:       " + str(abs(totalAllCost - float(solution))/float(solution)))
 
 
 
