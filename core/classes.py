@@ -86,6 +86,30 @@ class Route:
         self.load = arc.nodes[0].demand + arc.nodes[1].demand  # Load update
         return True
 
+    def add2(self, arc, chosen, position):
+        """
+        This function adds on node in the route, given by an arc and his position in the arc, in the correct position.
+        :param arc: Arc to consider
+        :param chosen: Node of the arc chosen (0 or 1)
+        :param position: Head or Tale
+        :return: Boolean indicating if the adding process is completed
+        """
+
+        if arc is None:  # If the arc is empty
+            return False
+        if self.load + arc.nodes[chosen].demand > self.capacity:  # If capacity isn't enough
+            return False
+        if position == "h":  # Head adding
+            self.destinations.append(arc.nodes[chosen])
+            self.indexHead = arc.nodes[chosen].index
+        if position == "t":  # Tale adding
+            self.destinations.insert(0, arc.nodes[chosen])
+            self.indexTale = arc.nodes[chosen].index
+        arc.nodes[chosen].visited = True  # Node marking
+        self.totalCost = self.totalCost + arc.cost  # Cost update
+        self.load = self.load + arc.nodes[chosen].demand  # Load update
+        return True
+
     def add(self, arc, chosen, position):
         """
         This function adds on node in the route, given by an arc and his position in the arc, in the correct position.
@@ -95,17 +119,39 @@ class Route:
         :return: Boolean indicating if the adding process is completed
         """
 
-        if arc is None:  #If the arc is empty
-            return False
-        if self.load + arc.nodes[chosen].demand > self.capacity:   # If capacity isn't enough
+        if arc is None:
             return False
         if position == "h":  #Head adding
-            self.destinations.append(arc.nodes[chosen])
-            self.indexHead = arc.nodes[chosen].index
+            return self.addHead(arc.nodes[chosen])
         if position == "t":  #Tale adding
-            self.destinations.insert(0, arc.nodes[chosen])
-            self.indexTale = arc.nodes[chosen].index
-        arc.nodes[chosen].visited = True  #Node marking
-        self.totalCost = self.totalCost + arc.cost  #Cost update
-        self.load = self.load + arc.nodes[chosen].demand  #Load update
+            return self.addTale(arc.nodes[chosen])
+
+        return False
+
+    def addHead(self, node):
+
+        if node is None:  # If the node is empty
+            return False
+        if self.load + node.demand > self.capacity:   # If capacity isn't enough
+            return False
+        self.totalCost = self.totalCost + Node.distance(node, self.destinations[len(self.destinations)-1])
+        self.load = self.load + node.demand  # Load update
+        self.destinations.append(node)
+        self.indexHead = node.index
+        node.visited = True  # Node marking
+
+        return True
+
+    def addTale(self, node):
+
+        if node is None:  # If the node is empty
+            return False
+        if self.load + node.demand > self.capacity:   # If capacity isn't enough
+            return False
+        self.totalCost = self.totalCost + Node.distance(node, self.destinations[0])
+        self.load = self.load + node.demand  # Load update
+        self.destinations.insert(0, node)
+        self.indexHead = node.index
+        node.visited = True  # Node marking
+
         return True
