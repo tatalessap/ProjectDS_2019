@@ -3,7 +3,7 @@ from core.toReadFile import *
 from core.toSolve import *
 import os
 
-directory = '/home/tatalessap/PycharmProjects/ProjectDS_2019/core/istances'
+directory = 'istances'
 
 for filename in os.listdir(directory):
     if filename.endswith(".txt"):
