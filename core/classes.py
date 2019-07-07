@@ -10,12 +10,16 @@ class Node:
         self.type = nodetype
         self.quantity = quantity
 
+    @staticmethod
+    def distance(node1, node2):
+        return math.sqrt((node1.x - node2.x) ** 2 + (node1.y - node2.y) ** 2)
+
 
 class Arc:
     def __init__(self, node1, node2, deposit):
         self.nodes = [node1, node2]
-        self.cost = math.sqrt((node1.x - node2.x) ** 2 + (node1.y - node2.y) ** 2)
-        self.saving = math.sqrt((node1.x - deposit.x) ** 2 + (node1.y - deposit.y) ** 2) + math.sqrt((deposit.x - node2.x) ** 2 + (deposit.y - node2.y) ** 2) - self.cost
+        self.cost = Node.distance(node1,node2)
+        self.saving = Node.distance(node1,deposit) + Node.distance(node2,deposit) - self.cost
         self.arcType = node1.type + node2.type
 
 
@@ -28,43 +32,34 @@ class Route:
         self.route = []
         self.indexTale = 0
         self.indexHead = 0
+        self.merged = False
 
     def firstAdd(self, arc):
-        if arc is None:
-            print("None")
-            return False
         if arc.nodes[0].quantity + arc.nodes[1].quantity > self.capacity:
             print(str(a)+" > "+str(self.capacity))
             return False
-
         self.route.append(arc.nodes[0])
         self.indexTale = arc.nodes[0].index
         self.route.append(arc.nodes[1])
         self.indexHead = arc.nodes[1].index
-
         arc.nodes[0].visited = True
         arc.nodes[1].visited = True
-
         self.totalCost = arc.cost
         self.load = arc.nodes[0].quantity + arc.nodes[1].quantity
-
         return True
 
-    def add(self, arc, n, typeHT):
+    def add(self, arc, position, typeHT):
         if arc is None:
             return False
-        if self.load + arc.nodes[n].quantity > self.capacity:
+        if self.load + arc.nodes[position].quantity > self.capacity:
             return False
-
         if typeHT == "h":
-            self.route.append(arc.nodes[n])
-            self.indexHead = arc.nodes[n].index
+            self.route.append(arc.nodes[position])
+            self.indexHead = arc.nodes[position].index
         if typeHT == "t":
-            self.route.insert(0, arc.nodes[n])
-            self.indexTale = arc.nodes[n].index
-
-        arc.nodes[n].visited = True
+            self.route.insert(0, arc.nodes[position])
+            self.indexTale = arc.nodes[position].index
+        arc.nodes[position].visited = True
         self.totalCost = self.totalCost + arc.cost
-        self.load = self.load + arc.nodes[n].quantity
-
+        self.load = self.load + arc.nodes[position].quantity
         return True
