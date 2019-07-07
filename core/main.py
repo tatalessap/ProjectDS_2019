@@ -2,7 +2,7 @@ from core.classes import *
 from core.toReadFile import *
 from core.toSolve import *
 
-nodesL, nodesB, arcsL, arcsB, nCustomers, deposit, vehiclesCapacity, nVehicles = readIstance("istances/A1.txt")
+nodesL, nodesB, arcsL, arcsB, nCustomers, deposit, vehiclesCapacity, nVehicles = readIstance("istances/J3.txt")
 
 routesL=[]
 routesB=[]
@@ -22,13 +22,13 @@ for i in range(len(nodesB)):
 for i in range(len(routes)):
     print("Route: "+str(i)+"\n")
     for j in range(len(routes[i].route)):
-        print(str(routes[i].route[j].index)+str(routes[i].route[j].type)+" ")
+        print(str(routes[i].route[j].index)+" ")
     print("\n\n")
 
-totalcost=0
+cost=0
 for i in range(len(routes)):
-    totalcost=totalcost+routes[i].totalCost
+     cost=cost+routes[i].cost
 
-print(str(totalcost))
+print(str(cost))
 
 
