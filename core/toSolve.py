@@ -69,7 +69,8 @@ def mergeRoutes(routesL, routesB, deposit):
             arcs.append((Arc(routesL[i].route[len(routesL[i].route)-1], routesB[j].route[0], deposit), i, j, "h", "t"))
             arcs.append((Arc(routesL[i].route[len(routesL[i].route)-1], routesB[j].route[len(routesB[j].route)-1], deposit)
                          , i, j, "h", "h"))
-    arcs.sort(key=lambda item: item[0].cost)
+    #arcs.sort(key=lambda item: item[0].cost)
+    arcs.sort(key=lambda item: item[0].saving, reverse=True)
 
     routes = []
 
@@ -80,13 +81,12 @@ def mergeRoutes(routesL, routesB, deposit):
                 routesB[arcs[i][2]].merged = True
                 routes.append(Route(p,capacity))
                 routes[p].totalCost = routesL[arcs[i][1]].totalCost + routesB[arcs[i][2]].totalCost + arcs[i][0].cost
-                routes[p].route =  routesL[arcs[i][1]].route
+                routes[p].route = routesL[arcs[i][1]].route
                 if(arcs[i][3]=="t"):
                     routes[p].route.reverse()
                 if(arcs[i][4]=="h"):
-                    routes[p].route=routes[p].route+routesB[arcs[i][2]].route.reverse()
-                else:
-                    routes[p].route=routes[p].route+routesB[arcs[i][2]].route
+                    routesB[arcs[i][2]].route.reverse()
+                routes[p].route=routes[p].route+routesB[arcs[i][2]].route
                 routes[p].totalCost = routes[p].totalCost + Node.distance(deposit, routes[p].route[0]) + \
                                       Node.distance(deposit, routes[p].route[len(routes[p].route)-1])
                 routes[p].route.append(deposit)

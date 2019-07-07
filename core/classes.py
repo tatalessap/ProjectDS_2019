@@ -36,7 +36,6 @@ class Route:
 
     def firstAdd(self, arc):
         if arc.nodes[0].quantity + arc.nodes[1].quantity > self.capacity:
-            print(str(a)+" > "+str(self.capacity))
             return False
         self.route.append(arc.nodes[0])
         self.indexTale = arc.nodes[0].index

@@ -53,4 +53,4 @@ def buildMetric(vectorX,vectorY):
         for j in range(len(vectorX)):
             p.append(math.sqrt((vectorX[i]-vectorX[j])**2+(vectorY[i]-vectorY[j])**2))
         M.append(p)
-    return M    
+    return M
