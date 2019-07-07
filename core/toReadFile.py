@@ -45,14 +45,14 @@ def readIstance(namefile):
     return nodesL, nodesB, arcsL, arcsB, nCustomers, deposit, vehiclesCapacity, nVehicles
 
 
-def readFiles(path1, path2, path3):
-    """
-    :param path1: name file
-    :param path2: number
-    :param path3: extension
-    :return:
-    """
-    return readIstance(path1+path2+path3)
+def readSolution(nameFile):
+    in_file = open(nameFile, "r")
+    i: int = 1
+    while i < 10:
+        myString = in_file.readline()  # Deposit line
+        i = i+1
+    mySplit = clearSplit(myString)  # Undesired characters removal
+    return mySplit[0]
 
 
 def clearSplit(l):

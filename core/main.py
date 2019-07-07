@@ -8,7 +8,9 @@ directory = 'istances'
 for filename in os.listdir(directory):
     if filename.endswith(".txt"):
 
-        nodesL, nodesB, arcsL, arcsB, nCustomers, deposit, vehiclesCapacity, nVehicles = readIstance("istances/"+filename)
+        nodesL, nodesB, arcsL, arcsB, nCustomers, deposit, vehiclesCapacity, nVehicles = readIstance("istances/"+ filename)
+
+        solution = readSolution("RPA_Solutions/Detailed_Solution_"+filename)
 
         routesL = []
 
@@ -35,7 +37,13 @@ for filename in os.listdir(directory):
         for i in range(len(routes)):
             totalAllCost = totalAllCost + routes[i].totalCost
 
-        print(str(totalAllCost))
+        print(str("\t Our solution:         " + str(totalAllCost)))
+
+        print("\t Optimal solution:     " + solution)
+
+        print("\t Absolute error:       " + str(abs(totalAllCost - float(solution))))
+
+
 
 
 
