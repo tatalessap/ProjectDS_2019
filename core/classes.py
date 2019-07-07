@@ -58,7 +58,7 @@ class Route:
         :param capacity: Vehicle capacity
         """
         self.index = index
-        self.cost = 0  # Cost of the route
+        self.totalCost = 0  # Cost of the route
         self.capacity = capacity
         self.load = 0  #Current load of the route
         self.route = [] # List of route's nodes
@@ -82,7 +82,7 @@ class Route:
         self.indexHead = arc.nodes[1].index
         arc.nodes[0].visited = True  # Nodes marking
         arc.nodes[1].visited = True
-        self.cost = arc.cost  # Cost update
+        self.totalCost = arc.cost  # Cost update
         self.load = arc.nodes[0].demand + arc.nodes[1].demand  # Load update
         return True
 
@@ -106,6 +106,6 @@ class Route:
             self.route.insert(0, arc.nodes[chosen])
             self.indexTale = arc.nodes[chosen].index
         arc.nodes[chosen].visited = True  #Node marking
-        self.cost = self.cost + arc.cost  #Cost update
+        self.totalCost = self.totalCost + arc.cost  #Cost update
         self.load = self.load + arc.nodes[chosen].demand  #Load update
         return True

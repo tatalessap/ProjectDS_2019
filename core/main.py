@@ -12,11 +12,11 @@ solved(arcsB, routesB, nVehicles, vehiclesCapacity)
 routes = mergeRoutes(routesL, routesB, deposit)
 
 for i in range(len(nodesL)):
-    if not(nodesL[i].visited):
+    if not nodesL[i].visited:
         print(str(i)+" (L) is not visited")
 
 for i in range(len(nodesB)):
-    if not(nodesB[i].visited):
+    if not nodesB[i].visited :
         print(str(i)+" (B) is not visited")
 
 for i in range(len(routes)):
@@ -25,10 +25,11 @@ for i in range(len(routes)):
         print(str(routes[i].route[j].index)+" ")
     print("\n\n")
 
-cost=0
-for i in range(len(routes)):
-     cost=cost+routes[i].cost
+totalAllCost = 0
 
-print(str(cost))
+for i in range(len(routes)):
+    totalAllCost = totalAllCost+routes[i].totalCost
+
+print(str(totalAllCost))
 
 
