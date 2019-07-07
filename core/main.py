@@ -4,7 +4,8 @@ from core.toSolve import *
 import os
 
 directory = 'istances'
-
+error = 0
+n = 0
 for filename in os.listdir(directory):
     if filename.endswith(".txt"):
 
@@ -43,7 +44,10 @@ for filename in os.listdir(directory):
 
         print("\t Absolute error:       " + str(abs(totalAllCost - float(solution))/float(solution)))
 
+        error = error + (abs(totalAllCost - float(solution))/float(solution))
+        n=n+1
 
+print("\n Media errori: "+str(error/n))
 
 
 
