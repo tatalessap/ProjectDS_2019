@@ -61,7 +61,7 @@ class Route:
         self.totalCost = 0  # Cost of the route
         self.capacity = capacity
         self.load = 0  #Current load of the route
-        self.route = [] # List of route's nodes
+        self.destinations = [] # List of route's nodes
         self.indexTale = 0  # Index of the first visited node
         self.indexHead = 0  # Index of the last visited node
         self.merged = False  #Boolean attribute for the merging process
@@ -74,8 +74,8 @@ class Route:
         """
         if arc.nodes[0].demand + arc.nodes[1].demand > self.capacity:   # If capacity isn't enough
             return False
-        self.route.append(arc.nodes[0])  # Both nodes of the arc are added
-        self.route.append(arc.nodes[1])
+        self.destinations.append(arc.nodes[0])  # Both nodes of the arc are added
+        self.destinations.append(arc.nodes[1])
         arc.nodes[0].visited = True  # Nodes marking
         arc.nodes[1].visited = True
         self.indexTale = arc.nodes[0].index  # Tale and head index upgrade
@@ -100,10 +100,10 @@ class Route:
         if self.load + arc.nodes[chosen].demand > self.capacity:   # If capacity isn't enough
             return False
         if position == "h":  #Head adding
-            self.route.append(arc.nodes[chosen])
+            self.destinations.append(arc.nodes[chosen])
             self.indexHead = arc.nodes[chosen].index
         if position == "t":  #Tale adding
-            self.route.insert(0, arc.nodes[chosen])
+            self.destinations.insert(0, arc.nodes[chosen])
             self.indexTale = arc.nodes[chosen].index
         arc.nodes[chosen].visited = True  #Node marking
         self.totalCost = self.totalCost + arc.cost  #Cost update

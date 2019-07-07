@@ -101,54 +101,74 @@ def searchArcOneNotVisited(start, arcs, indexHead, indexTale):
 
 
 def mergeRoutes(routesL, routesB, deposit):
-    arcs = []
-    capacity = routesL[0].capacity
+    """
+    This function merges  Linehaul routes with a BackHaul routes, and add deposit at start and finish
+    :param routesL: List of LineHaul routes
+    :param routesB: List of BackHaul routes
+    :param deposit: Deposit node
+    :return: List of merged routes
+    """
+    arcs = []  # List of arcs between Linehaul and BackHaul routes
+    capacity = routesL[0].capacity  # Capacity of LineHaul routes
+    routes = [] # Routes list to return
+
+    # For all routes append arcs between all heads and all tales saving in the tuple routes indexes and head or tale
     for i in range(len(routesL)):
         for j in range(len(routesB)):
-            arcs.append((Arc(routesL[i].route[0], routesB[j].route[0], deposit), i, j, "t", "t"))
+            arcs.append((Arc(routesL[i].destinations[0], routesB[j].destinations[0], deposit), i, j, "t", "t"))
             arcs.append(
-                (Arc(routesL[i].route[0], routesB[j].route[len(routesB[j].route) - 1], deposit), i, j, "t", "h"))
+                (Arc(routesL[i].destinations[0], routesB[j].destinations[len(routesB[j].destinations) - 1], deposit), i, j, "t", "h"))
             arcs.append(
-                (Arc(routesL[i].route[len(routesL[i].route) - 1], routesB[j].route[0], deposit), i, j, "h", "t"))
+                (Arc(routesL[i].destinations[len(routesL[i].destinations) - 1], routesB[j].destinations[0], deposit), i, j, "h", "t"))
             arcs.append(
-                (Arc(routesL[i].route[len(routesL[i].route) - 1], routesB[j].route[len(routesB[j].route) - 1], deposit)
+                (Arc(routesL[i].destinations[len(routesL[i].destinations) - 1], routesB[j].destinations[len(routesB[j].destinations) - 1], deposit)
                  , i, j, "h", "h"))
-    # arcs.sort(key=lambda item: item[0].cost)
+    # Sort arcs in term of saving
     arcs.sort(key=lambda item: item[0].saving, reverse=True)
 
-    routes = []
-
-    for p in range(len(routesB)):
-        for i in range(len(arcs)):
-            if not routesL[arcs[i][1]].merged and not routesB[arcs[i][2]].merged:
-                routesL[arcs[i][1]].merged = True
+    i=0
+    for p in range(len(routesB)):   # Every loop is a merge of a BackHaul route
+        isRouteAdded = False
+        while not isRouteAdded:  # Until the route is added we check arcs[i]
+            if not routesL[arcs[i][1]].merged and not routesB[arcs[i][2]].merged:   # If the arc can be used
+                routesL[arcs[i][1]].merged = True   # Mark routes of the arc as merged
                 routesB[arcs[i][2]].merged = True
-                routes.append(Route(p, capacity))
+                routes.append(Route(p, capacity))   # Create new empty route with LineHaul capacity
+                # Cost of the L-B route, still no deposit
                 routes[p].totalCost = routesL[arcs[i][1]].totalCost + routesB[arcs[i][2]].totalCost + arcs[i][0].cost
-                routes[p].route = routesL[arcs[i][1]].route
+                routes[p].destinations = routesL[arcs[i][1]].destinations  # The LineHaul route is added
                 if arcs[i][3] == "t":
-                    routes[p].route.reverse()
+                    routes[p].destinations.reverse()   # If necessary, the route is reversed
                 if arcs[i][4] == "h":
-                    routesB[arcs[i][2]].route.reverse()
-                routes[p].route = routes[p].route + routesB[arcs[i][2]].route
-                routes[p].totalCost = routes[p].totalCost + Node.distance(deposit, routes[p].route[0]) + \
-                                      Node.distance(deposit, routes[p].route[len(routes[p].route) - 1])
-                routes[p].route.append(deposit)
-                routes[p].route.insert(0, deposit)
-                routes[p].indexHead = 0
-                routes[p].indexTale = 0
-                break
+                    routesB[arcs[i][2]].destinations.reverse() #If necessary, the BackHaul route is also reversed
+                routes[p].destinations = routes[p].destinations + routesB[arcs[i][2]].destinations   # BackHaul route added
 
-    for i in range(len(routesL)):
-        if not routesL[i].merged:
+                # Add deposit
+                addDeposit(routes[p],deposit)
+                isRouteAdded = True
+            i=i+1
+
+    for i in range(len(routesL)):   # There may be LineHaul routes left
+        if not routesL[i].merged:   # If the route hasn't been merged
             p = len(routes)
             routesL[i].merged = True
-            routes.append(routesL[i])
-            routes[p].totalCost = routes[p].totalCost + Node.distance(deposit, routes[p].route[0]) + \
-                                  Node.distance(deposit, routes[p].route[len(routes[p].route) - 1])
-            routes[p].route.append(deposit)
-            routes[p].route.insert(0, deposit)
-            routes[p].indexHead = 0
-            routes[p].indexTale = 0
+            routes.append(routesL[i])   # Add route of pure Linehaul
+            # Add deposit
+            addDeposit(routes[p],deposit)
 
     return routes
+
+
+def addDeposit(route, deposit):
+    """
+    This function adds a deposit node at the start and at the end of a route, updating the total cost of the route
+    :param route: Route to update
+    :param deposit: Deposit to add
+    :return:
+    """
+    route.totalCost = route.totalCost + Node.distance(deposit, route.destinations[0]) + \
+                          Node.distance(deposit, route.destinations[len(route.destinations) - 1])
+    route.destinations.append(deposit)
+    route.destinations.insert(0, deposit)
+    route.indexHead = 0
+    route.indexTale = 0
