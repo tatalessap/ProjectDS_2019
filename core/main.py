@@ -1,35 +1,45 @@
 from core.classes import *
 from core.toReadFile import *
 from core.toSolve import *
+import os
 
-nodesL, nodesB, arcsL, arcsB, nCustomers, deposit, vehiclesCapacity, nVehicles = readIstance("istances/J3.txt")
+directory = '/home/tatalessap/PycharmProjects/ProjectDS_2019/core/istances'
 
-routesL=[]
-routesB=[]
-solved(arcsL, routesL, nVehicles, vehiclesCapacity)
-solved(arcsB, routesB, nVehicles, vehiclesCapacity)
+for filename in os.listdir(directory):
+    if filename.endswith(".txt"):
 
-routes = mergeRoutes(routesL, routesB, deposit)
+        nodesL, nodesB, arcsL, arcsB, nCustomers, deposit, vehiclesCapacity, nVehicles = readIstance("istances/"+filename)
 
-for i in range(len(nodesL)):
-    if not nodesL[i].visited:
-        print(str(i)+" (L) is not visited")
+        routesL = []
 
-for i in range(len(nodesB)):
-    if not nodesB[i].visited :
-        print(str(i)+" (B) is not visited")
+        routesB = []
 
-for i in range(len(routes)):
-    print("Route: "+str(i)+"\n")
-    for j in range(len(routes[i].route)):
-        print(str(routes[i].route[j].index)+" ")
-    print("\n\n")
+        solved(arcsL, routesL, nVehicles, vehiclesCapacity)
 
-totalAllCost = 0
+        solved(arcsB, routesB, nVehicles, vehiclesCapacity)
 
-for i in range(len(routes)):
-    totalAllCost = totalAllCost+routes[i].totalCost
+        routes = mergeRoutes(routesL, routesB, deposit)
 
-print(str(totalAllCost))
+        print("\n" + filename)
+
+        for i in range(len(nodesL)):
+            if not nodesL[i].visited:
+                print(str(i) + " (L) is not visited")
+
+        for i in range(len(nodesB)):
+            if not nodesB[i].visited:
+                print(str(i) + " (B) is not visited")
+
+        totalAllCost = 0
+
+        for i in range(len(routes)):
+            totalAllCost = totalAllCost + routes[i].totalCost
+
+        print(str(totalAllCost))
+
+
+
+
+
 
 

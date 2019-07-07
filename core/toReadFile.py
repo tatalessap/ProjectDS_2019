@@ -10,7 +10,7 @@ def readIstance(namefile):
     :return:
     """
 
-    # Lists inizialization
+    # Lists initialization
     nodesL = []
     nodesB = []
     arcsL = []
@@ -43,6 +43,16 @@ def readIstance(namefile):
     arcsB.sort(key=lambda item: item.saving, reverse=True)
 
     return nodesL, nodesB, arcsL, arcsB, nCustomers, deposit, vehiclesCapacity, nVehicles
+
+
+def readFiles(path1, path2, path3):
+    """
+    :param path1: name file
+    :param path2: number
+    :param path3: extension
+    :return:
+    """
+    return readIstance(path1+path2+path3)
 
 
 def clearSplit(l):
