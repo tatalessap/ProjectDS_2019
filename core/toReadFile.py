@@ -27,7 +27,7 @@ def readIstance(namefile):
     for i in range(nCustomers):  # Node lists creation
         mystring = in_file.readline()
         mysplit = clearSplit(mystring)
-        if int(mysplit[2]) != 0:
+        if int(mysplit[2]) != 0:  # If LineHaul
             nodesL.append(Node(i+1, float(mysplit[0]), float(mysplit[1]), False, int(mysplit[2])))
         else:
             nodesB.append(Node(i+1, float(mysplit[0]), float(mysplit[1]), False, int(mysplit[3])))
