@@ -142,3 +142,30 @@ class Route:
         node.visited = True  # Node marking
 
         return True
+
+    def removeHead(self):
+        self.totalCost = self.totalCost - Node.distance(self.destinations[len(self.destinations)-2], self.destinations[len(self.destinations)-1])
+        self.load = self.load - self.destinations[len(self.destinations)-1].demand  # Load update
+        self.indexHead = self.destinations[len(self.destinations)-2].index
+        self.destinations[len(self.destinations)-1].visited = False  # Node marking
+
+        return self.destinations.pop(len(self.destinations)-1)
+
+    def removeTale(self):
+        self.totalCost = self.totalCost - Node.distance(self.destinations[0],
+                                                        self.destinations[1])
+        self.load = self.load - self.destinations[0].demand  # Load update
+        self.indexHead = self.destinations[1].index
+        self.destinations[0].visited = False  # Node marking
+
+        return self.destinations.pop(0)
+
+    def switchNodes(self, nodeUpdate, typeNode):
+        if typeNode == "t":
+            nodeEliminate = self.removeTale()
+            self.addTale(nodeUpdate)
+        else:
+            nodeEliminate = self.removeHead()
+            self.addHead(nodeUpdate)
+        return nodeEliminate
+

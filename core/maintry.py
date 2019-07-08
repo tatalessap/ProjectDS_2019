@@ -6,18 +6,19 @@ import os
 directory = 'istances'
 error = 0
 
-filename = ("C4.txt")
-nodesL, nodesB, arcsL, arcsB, nCustomers, deposit, vehiclesCapacity, nVehicles = readIstance("istances/"+ filename)
+filename = ("G1.txt")
 
-solution = readSolution("RPA_Solutions/Detailed_Solution_"+filename)
+nodesL, nodesB, arcsL, arcsB, nCustomers, deposit, vehiclesCapacity, nVehicles = readIstance("istances/" + filename)
+
+solution = readSolution("RPA_Solutions/Detailed_Solution_" + filename)
 
 routesL = []
 
 routesB = []
 
-solved(arcsL, routesL, nVehicles, vehiclesCapacity)
+solved(arcsL, routesL, nVehicles, vehiclesCapacity, nodesL, deposit)
 
-solved(arcsB, routesB, nVehicles, vehiclesCapacity)
+solved(arcsB, routesB, nVehicles, vehiclesCapacity, nodesB, deposit)
 
 routes = mergeRoutes(routesL, routesB, deposit)
 

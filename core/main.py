@@ -17,9 +17,9 @@ for filename in os.listdir(directory):
 
         routesB = []
 
-        solved(arcsL, routesL, nVehicles, vehiclesCapacity)
+        solved(arcsL, routesL, nVehicles, vehiclesCapacity, nodesL, deposit)
 
-        solved(arcsB, routesB, nVehicles, vehiclesCapacity)
+        solved(arcsB, routesB, nVehicles, vehiclesCapacity, nodesB, deposit)
 
         routes = mergeRoutes(routesL, routesB, deposit)
 
