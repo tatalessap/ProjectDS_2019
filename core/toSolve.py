@@ -1,5 +1,5 @@
 from core.classes import *
-
+import random
 
 def solved(arcs, routes, nVehicles, vehiclesCapacity):
     """
@@ -36,9 +36,10 @@ def solved(arcs, routes, nVehicles, vehiclesCapacity):
     for r in range(len(routes)):
         tupleRouteCheck.append([routes[r], True])
 
-    checkAllRoute: bool = True  # if this check is False, not more arcs to visited
+    checkAllRoute: bool = True  # if this check is False, not more arcs to visit
 
     while checkAllRoute:
+        # random.shuffle(tupleRouteCheck)   # random shuffle fo routes
         tupleRouteCheck.sort(key=lambda item: item[0].load)  # sort by most capacity left
         # Continue to add Arcs until the routes are saturated
         for r in range(len(routes)):
@@ -238,6 +239,7 @@ def appendNodesNotVisitedInRoutes (routes, nodes, deposit, capacity):
                 updateRoutesByInsertNodeNotVisited(indexTaleInDestinations, indexRoute, nodesNotVisited, routes, newLoad)
                 routes[indexRoute].add(Arc(nodesNotVisited[j],routes[indexRoute].destinations[indexSx], deposit), 0, "t")
             else:
+                pass
 
 
 
