@@ -6,7 +6,7 @@ import os
 directory = 'istances'
 error = 0
 
-filename = ("G1.txt")
+filename = ("D1.txt")
 
 nodesL, nodesB, arcsL, arcsB, nCustomers, deposit, vehiclesCapacity, nVehicles = readIstance("istances/" + filename)
 

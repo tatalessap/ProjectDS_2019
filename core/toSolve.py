@@ -41,15 +41,16 @@ def solved(arcs, routes, nVehicles, vehiclesCapacity, nodes, deposit):
     while checkNodes:
         i: int = 0
 
-
         while not canSwitch and i < len(nodesNotVisited):
             canSwitch = appendNodesNotVisitedInRoutes(routes, nodesNotVisited[i])
 
             if canSwitch:  # if you can switch you also try to add new by standard method
-                checkNodes, nodesNotVisited = getNodesNotVisited(nodes)
                 assignArcsAllRoutes(routes, arcs)
 
                 checkNodes, nodesNotVisited = getNodesNotVisited(nodes)
+
+                if checkNodes:
+                    canSwitch = False
 
             else:
                 i = i + 1
@@ -70,7 +71,7 @@ def assignArcsAllRoutes(routes, arcs):
 
     while checkAllRoute:
         # random.shuffle(tupleRouteCheck)   # random shuffle fo routes
-        # tupleRouteCheck.sort(key=lambda item: item[0].load)  # sort by most capacity left
+        tupleRouteCheck.sort(key=lambda item: item[0].load)  # sort by most capacity left
         # Continue to add Arcs until the routes are saturated
         for r in range(len(routes)):
             if tupleRouteCheck[r][1]:
