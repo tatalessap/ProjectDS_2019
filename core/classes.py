@@ -86,29 +86,6 @@ class Route:
         self.load = arc.nodes[0].demand + arc.nodes[1].demand  # Load update
         return True
 
-    def add2(self, arc, chosen, position):
-        """
-        This function adds on node in the route, given by an arc and his position in the arc, in the correct position.
-        :param arc: Arc to consider
-        :param chosen: Node of the arc chosen (0 or 1)
-        :param position: Head or Tale
-        :return: Boolean indicating if the adding process is completed
-        """
-
-        if arc is None:  # If the arc is empty
-            return False
-        if self.load + arc.nodes[chosen].demand > self.capacity:  # If capacity isn't enough
-            return False
-        if position == "h":  # Head adding
-            self.destinations.append(arc.nodes[chosen])
-            self.indexHead = arc.nodes[chosen].index
-        if position == "t":  # Tale adding
-            self.destinations.insert(0, arc.nodes[chosen])
-            self.indexTale = arc.nodes[chosen].index
-        arc.nodes[chosen].visited = True  # Node marking
-        self.totalCost = self.totalCost + arc.cost  # Cost update
-        self.load = self.load + arc.nodes[chosen].demand  # Load update
-        return True
 
     def add(self, arc, chosen, position):
         """
@@ -129,6 +106,11 @@ class Route:
         return False
 
     def addHead(self, node):
+        """
+        This function adds a node at the head of the route, and updates his values
+        :param node: Node to add
+        :return: Boolean indicating if the adding process is completed
+        """
 
         if node is None:  # If the node is empty
             return False
@@ -143,6 +125,11 @@ class Route:
         return True
 
     def addTale(self, node):
+        """
+        This function adds a node at the tale of the route, and updates his values
+        :param node: Node to add
+        :return: Boolean indicating if the adding process is completed
+        """
 
         if node is None:  # If the node is empty
             return False
@@ -151,7 +138,7 @@ class Route:
         self.totalCost = self.totalCost + Node.distance(node, self.destinations[0])
         self.load = self.load + node.demand  # Load update
         self.destinations.insert(0, node)
-        self.indexHead = node.index
+        self.indexTale = node.index
         node.visited = True  # Node marking
 
         return True
